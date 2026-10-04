@@ -21,6 +21,10 @@ Browser -> Web frontend -> Backend REST API -> PostgreSQL
 
 The frontend will present the guest and administrator workflows. The backend will expose APIs and enforce application rules. PostgreSQL will store the application's durable data and enforce relationships and constraints. All components are intended to run locally during development; no cloud services are required.
 
+## Technology
+
+The backend will use Python with FastAPI for the REST API and psycopg 3 for PostgreSQL connections. Database queries will initially use parameterized SQL directly rather than an ORM, keeping SQL and PostgreSQL behavior visible while learning. The frontend technology will be chosen separately when frontend work begins.
+
 ## Development
 
 Database changes will be recorded as incremental migrations. Each change should focus on one understandable concept or feature and be committed separately, so the Git history documents how the application develops.
