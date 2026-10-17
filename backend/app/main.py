@@ -9,6 +9,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 
 from .repositories.hotels import list_hotels
+from .repositories.rooms import list_rooms_by_hotel
 
 app = FastAPI(title="nest API", version="0.1.0")
 
@@ -23,3 +24,9 @@ def health_check() -> dict[str, str]:
 def get_hotels() -> list[dict[str, object]]:
     """Return all hotels from PostgreSQL in a simple JSON-friendly payload."""
     return list_hotels()
+
+
+@app.get("/hotels/{hotel_id}/rooms")
+def get_hotel_rooms(hotel_id: int) -> list[dict[str, object]]:
+    """Return room inventory for one hotel from PostgreSQL."""
+    return list_rooms_by_hotel(hotel_id)
