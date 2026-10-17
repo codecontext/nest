@@ -9,6 +9,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 
 from .repositories.hotels import list_hotels
+from .repositories.reservations import list_reservations_for_user
 from .repositories.rooms import list_rooms_by_hotel
 
 app = FastAPI(title="nest API", version="0.1.0")
@@ -30,3 +31,9 @@ def get_hotels() -> list[dict[str, object]]:
 def get_hotel_rooms(hotel_id: int) -> list[dict[str, object]]:
     """Return room inventory for one hotel from PostgreSQL."""
     return list_rooms_by_hotel(hotel_id)
+
+
+@app.get("/users/{user_id}/reservations")
+def get_user_reservations(user_id: int) -> list[dict[str, object]]:
+    """Return reservations for a user with hotel and room context."""
+    return list_reservations_for_user(user_id)
