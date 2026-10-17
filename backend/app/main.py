@@ -6,8 +6,11 @@ minimal hotels endpoint backed by the repository layer we already created.
 
 from __future__ import annotations
 
+from datetime import date
+
 from fastapi import FastAPI
 
+from .repositories.availability import find_available_rooms
 from .repositories.hotels import list_hotels
 from .repositories.reservations import list_reservations_for_user
 from .repositories.rooms import list_rooms_by_hotel
@@ -31,6 +34,16 @@ def get_hotels() -> list[dict[str, object]]:
 def get_hotel_rooms(hotel_id: int) -> list[dict[str, object]]:
     """Return room inventory for one hotel from PostgreSQL."""
     return list_rooms_by_hotel(hotel_id)
+
+
+@app.get("/hotels/{hotel_id}/availability")
+def get_hotel_availability(
+    hotel_id: int,
+    check_in: date,
+    check_out: date,
+) -> list[dict[str, object]]:
+    """Return rooms available for a hotel during a date range."""
+    return find_available_rooms(hotel_id, check_in, check_out)
 
 
 @app.get("/users/{user_id}/reservations")
